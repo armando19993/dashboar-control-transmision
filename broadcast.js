@@ -24,7 +24,8 @@ const broadcastManager = {
           '-reconnect_at_eof 1',
           '-reconnect_streamed 1',
           '-reconnect_delay_max 2',
-          '-fflags +genpts'     // Genera timestamps
+          '-fflags +genpts',     // Genera timestamps
+          '-headers Referer: https://www.tdmax.com'
         ])
         .outputOptions([
           '-c:v copy',          // Copia el video sin recodificar
