@@ -76,3 +76,11 @@ http://ipServer:3000
 
 ![Servidor Funcionando](image-1.png)
 
+## 6. Instalar Ffmepg
+1. Instalalo con el siguiente comando
+```bash
+apt install ffmpeg
+```
+
+
+## 6. Instalar Ffmepg
