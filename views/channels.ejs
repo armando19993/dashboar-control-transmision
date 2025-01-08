@@ -108,6 +108,8 @@
             font-size: 1.2rem;
             color: #e74c3c;
             font-weight: bold;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
         }
 
         #access-screen {
@@ -281,36 +283,57 @@
                 }
             });
 
-            // Función para calcular y actualizar las cuentas regresivas
-            function iniciarCuentasRegresivas() {
-                function updateCountdown(lastUpdatedTime, elementId) {
-                    const countdownElement = document.getElementById(elementId);
-                    if (!countdownElement) return;
+            function updateCountdown(lastUpdatedTime, elementId) {
+                const countdownElement = document.getElementById(elementId);
+                if (!countdownElement) return;
 
-                    const now = new Date();
-                    const lastUpdated = new Date(lastUpdatedTime);
-                    const hoursDifference = (now - lastUpdated) / 1000 / 60 / 60;
+                function calculate() {
+                    const now = new Date().getTime();
+                    const lastUpdated = new Date(lastUpdatedTime).getTime();
+                    const fourHoursInMs = 4 * 60 * 60 * 1000;
+                    const expirationTime = lastUpdated + fourHoursInMs;
+                    const timeRemaining = expirationTime - now;
 
-                    if (hoursDifference < 4) {
-                        const countdownTime = 4 - hoursDifference;
-                        const countdownText = `${Math.floor(countdownTime)} horas restantes`;
-                        countdownElement.textContent = countdownText;
-                    } else {
+                    if (timeRemaining <= 0) {
                         countdownElement.textContent = "Tiempo agotado";
+                        countdownElement.style.color = "#dc3545";
+                        return false;
                     }
+
+                    // Calcular horas, minutos y segundos
+                    const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                    // Formatear el tiempo con ceros a la izquierda
+                    const formattedHours = String(hours).padStart(2, '0');
+                    const formattedMinutes = String(minutes).padStart(2, '0');
+                    const formattedSeconds = String(seconds).padStart(2, '0');
+
+                    countdownElement.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} restantes`;
+                    countdownElement.style.color = timeRemaining < 900000 ? "#dc3545" : "#e74c3c"; // Rojo más intenso en últimos 15 minutos
+                    return true;
                 }
 
+                // Primera ejecución
+                const shouldContinue = calculate();
+
+                // Actualizar cada segundo si aún no ha expirado
+                if (shouldContinue) {
+                    const intervalId = setInterval(() => {
+                        const shouldContinueInterval = calculate();
+                        if (!shouldContinueInterval) {
+                            clearInterval(intervalId);
+                        }
+                    }, 1000);
+                }
+            }
+
+            function iniciarCuentasRegresivas() {
                 // Inicializar las cuentas regresivas para cada canal
                 <% channels.forEach((channel, index) => { %>
                     updateCountdown("<%= channel.lastUpdated %>", "countdown-<%= index %>");
                 <% }); %>
-
-                // Actualizar cada minuto
-                setInterval(() => {
-                    <% channels.forEach((channel, index) => { %>
-                        updateCountdown("<%= channel.lastUpdated %>", "countdown-<%= index %>");
-                    <% }); %>
-                }, 60000);
             }
         });
     </script>
