@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+  <!-- [Previous head content remains the same] -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Canales</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Estilos existentes */
+    /* [Previous styles remain the same] */
     body {
       font-family: 'Inter', sans-serif;
       margin: 0;
@@ -112,7 +112,7 @@
       font-weight: bold;
     }
 
-    /* Nuevos estilos para la pantalla de acceso */
+    /* Estilos para la pantalla de acceso */
     #access-screen {
       position: fixed;
       top: 0;
@@ -153,14 +153,14 @@
   <div id="access-screen">
     <div class="access-container">
       <h2>Acceso al Sistema</h2>
-      <form id="access-form" onsubmit="return checkAccess(event)">
+      <div class="form-group">
         <label>
           Código de acceso:
           <input type="password" id="access-code" required>
         </label>
         <div class="error-message" id="error-message">Código incorrecto. Por favor, intente nuevamente.</div>
-        <button type="submit">Acceder</button>
-      </form>
+        <button type="button" onclick="checkAccess()">Acceder</button>
+      </div>
     </div>
   </div>
 
@@ -247,8 +247,7 @@
 
   <script>
     // Función para verificar el código de acceso
-    function checkAccess(event) {
-      event.preventDefault();
+    function checkAccess() {
       const accessCode = document.getElementById('access-code').value;
       const correctCode = 'he)50_8VjgGiu7DG';
       
@@ -261,8 +260,15 @@
       } else {
         document.getElementById('error-message').style.display = 'block';
       }
-      return false;
     }
+
+    // Agregar evento para manejar la tecla Enter
+    document.getElementById('access-code').addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        checkAccess();
+      }
+    });
 
     // Verificar si ya tiene acceso al cargar la página
     window.onload = function() {
@@ -295,5 +301,4 @@
     <% }); %>
   </script>
 </body>
-
 </html>
