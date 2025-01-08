@@ -25,7 +25,7 @@ const broadcastManager = {
           '-reconnect_streamed 1',
           '-reconnect_delay_max 2',
           '-fflags +genpts',     // Genera timestamps
-          '-headers Referer: https://www.tdmax.com'
+          '-headers', 'Referer: https://www.tdmax.com' // Cabecera fija Referer
         ])
         .outputOptions([
           '-c:v copy',          // Copia el video sin recodificar
