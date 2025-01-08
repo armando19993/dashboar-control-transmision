@@ -25,7 +25,7 @@ const broadcastManager = {
         '-reconnect_streamed 1',
         '-reconnect_delay_max 2',
         '-fflags +genpts',          // Genera timestamps
-        '-headers', `Referer: https://www.tdmax.com\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36\r\n`
+        '-headers', `Referer: https://www.tdmax.com/\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36\r\n`
       ])
       .outputOptions([
         '-c:v copy',                // Copia el video sin recodificar
