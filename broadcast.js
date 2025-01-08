@@ -17,24 +17,22 @@ const broadcastManager = {
 
     try {
       const process = ffmpeg()
-      .input(channel.hlsUrl)
-      .inputOptions([
-        '-re',                      // Lee input a velocidad nativa
-        '-reconnect 1',             // Intenta reconectar si pierde conexión
-        '-reconnect_at_eof 1',
-        '-reconnect_streamed 1',
-        '-reconnect_delay_max 2',
-        '-fflags +genpts',          // Genera timestamps
-        '-headers', `Referer: https://www.tdmax.com/\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36\r\n`
-      ])
-      .outputOptions([
-        '-c:v copy',                // Copia el video sin recodificar
-        '-c:a aac',                 // Codec de audio
-        '-b:a 128k',                // Bitrate de audio
-        '-f flv'                    // Formato de salida
-      ])
-      .output(channel.rtmpUrl);
-    
+        .input(channel.hlsUrl)
+        .inputOptions([
+          '-re',                // Lee input a velocidad nativa
+          '-reconnect 1',       // Intenta reconectar si pierde conexión
+          '-reconnect_at_eof 1',
+          '-reconnect_streamed 1',
+          '-reconnect_delay_max 2',
+          '-fflags +genpts'     // Genera timestamps
+        ])
+        .outputOptions([
+          '-c:v copy',          // Copia el video sin recodificar
+          '-c:a aac',           // Codec de audio
+          '-b:a 128k',          // Bitrate de audio
+          '-f flv'              // Formato de salida
+        ])
+        .output(channel.rtmpUrl);
 
       // Manejadores de eventos
       process
